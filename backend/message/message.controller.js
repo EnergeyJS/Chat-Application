@@ -1,5 +1,5 @@
 // required message controller
-const Message = require("../modal/message");
+const Message = require("./message.route");
 
 // get all message controller
 const getAllMessageController = async (req, res) => {

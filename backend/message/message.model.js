@@ -4,12 +4,14 @@ const Schema = mongoose.Schema;
 // messanger schema
 const messangerSchema = new Schema({
     sender: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref: 'user'
     },
     recever: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref: 'user'
     },
     messagetext: {
         type: String,

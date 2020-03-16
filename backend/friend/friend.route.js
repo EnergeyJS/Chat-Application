@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 //  required all message controller
-const FriendRouteController = require("../controller/friendController");
+const FriendRouteController = require("./friend.controller");
 
 // all message route
 router.get('/', FriendRouteController.getAllFriendController);

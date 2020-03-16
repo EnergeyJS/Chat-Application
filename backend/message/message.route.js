@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 //  required all message controller
-const messageRouteController = require("../controller/messageController");
+const messageRouteController = require("./message.controller");
 
 // all message route
 router.get('/', messageRouteController.getAllMessageController);

@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 //  required all message controller
-const UserRouteController = require("../controller/userController");
+const UserRouteController = require("./user.controller");
 const { upload } = require("../libs/upload");
 
 // all message route

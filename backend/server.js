@@ -18,9 +18,10 @@ const config = require("./config/index");
 const PORT = process.env.PORT || 5050;
 
 // all router
-const messageRouteData = require("./routes/messageRoute");
-const friendRouteData = require("./routes/friendRoute");
-const UserRouteData = require("./routes/userRoute");
+const messageRoute = require("./message/message.route");
+const friendRoute = require("./friend/friend.route");
+const userRoute = require("./user/user.route");
+const authRoute = require('./auth/auth.route');
 
 // request moddleware
 app.use((req, res, next) => {
@@ -34,20 +35,27 @@ app.use((req, res, next) => {
 (async () => {
     try {
         await mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("connected");
+        console.log("Databse connected");
     } catch (error) {
         console.log(error)
     }
 })()
 
+app.use("/image", express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
     console.log('server running', PORT);
 })
 
-app.use("/image", express.static(path.join(__dirname, 'public')));
+
+
+//Health Test
+app.get('/api', (req, res)=>{
+    res.send('Health is OK.');
+});
 
 //  all route
-app.use('/api/message', messageRouteData);
-app.use('/api/friend', friendRouteData);
-app.use('/api/user', UserRouteData);
+app.use('/api/message', messageRoute);
+app.use('/api/friend', friendRoute);
+app.use('/api/user', userRoute);
+app.use('/api/auth', authRoute);

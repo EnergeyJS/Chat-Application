@@ -1,5 +1,5 @@
 // required message controller
-const Friend = require("../modal/friend");
+const Friend = require("./friend.model");
 
 // get all friend controller
 const getAllFriendController = async (req, res) => {
@@ -16,6 +16,7 @@ const getFriendRequestAcceptController = async (req, res) => {
     const { requester } = req.query;
     console.log(requester);
     try {
+        // Use me as recipient 
         const friend = await Friend.findOne({ requester });
         friend.statusData = true;
         console.log(friend);
@@ -28,12 +29,14 @@ const getFriendRequestAcceptController = async (req, res) => {
 
 // sending all friend request
 const sendAllFriendRequestUser = async (req, res) => {
+    //requester is me
     const sendingFriend = await Friend.find({}).select('requester');
     res.send(sendingFriend);
 }
 
 //delete single sending friend
 const deleteSendingFriendRequest = async (req, res) => {
+    
     const removesending = await Friend.findOne({ requester: req.query.requester });
     res.send(removesending.remove());
 }

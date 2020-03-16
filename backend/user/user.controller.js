@@ -2,9 +2,11 @@
 const fs = require('fs')
 const path = require("path");
 const dirPath = path.join(__dirname, '../public');
+const bcrypt = require('bcryptjs')
+const salt = bcrypt.genSaltSync(10)
 
 // required user controller
-const User = require("../modal/user");
+const User = require("./user.model");
 
 // get all users controller
 const getAllUserController = async (req, res) => {
@@ -12,16 +14,23 @@ const getAllUserController = async (req, res) => {
 };
 
 // create user controller
-const createUserController = async (req, res) => {
-    if (req.file) {
-        const CreateUser = new User({
-            name: req.body.name,
-            phoneNumber: req.body.phoneNumber,
-            email: req.body.email,
-            photo: req.file.filename,
-            institute: req.body.institute
+const createUserController = async (req, res, next) => {
+    const { name,  phoneNumber, email, institute, password} = req.body;
+
+    try {
+        const createUser = new User({
+            name,
+            phoneNumber,
+            email,
+            institute,
+            password: bcrypt.hashSync(password, salt)
         });
-        res.send(await CreateUser.save());
+        if (req.file) {
+            createUser.photo = req.file.filename;
+        }
+        res.send(await createUser.save());
+    } catch (error) {
+        next(error);
     }
 };
 
